@@ -1,6 +1,6 @@
 <?php
-   include_once('./stripeConfig.php');
    include_once('./includes/headerNav.php');
+   include_once('./stripeConfig.php');
    //this restriction will secure the pages path injection
    if(!(isset($_SESSION['id']))){
       header("location:signup.php?msg=CreateAccountBeforePurchase");
@@ -17,8 +17,14 @@
               border:none;
               background:aliceblue;
               box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-              
            }
+ @media only screen and (max-width: 768px){
+.proceed-pay{
+             height:450px;
+            flex-direction:column;
+            gap:20px;
+}
+}
            .thumbnail{
               cursor:pointer;
            }
@@ -45,13 +51,6 @@
            button{
               font-family:monospace
            }
-           @media screen and (max-width:700px) {
-         .proceed-pay{
-            height:450px;
-            flex-direction:column;
-            gap:20px;
-         }
-         } 
         </style>
      </head>
 
@@ -83,8 +82,7 @@ $conn->close();
         <p>subtotal( item)</p>
         <p>shipping_fees: Rs 50</p>
 
-   
-      <label for=""> <i style=" text-decoration:underline;"> voucher code</i></label>  <input type="text" placeholder="Insert code" name="code" required>
+        <label for=""> <i style=" text-decoration:underline;"> voucher code</i></label>  <input type="text" placeholder="Insert code" name="code" required>
         <p>Total: Rs <?php echo $row['product_price']?>+50 = <?php echo $row['product_price']+50 ?> </p>
 
 <form action="message.php?id=<?php echo $_GET['id']?>" method="post">

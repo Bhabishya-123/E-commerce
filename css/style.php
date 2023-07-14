@@ -26,7 +26,7 @@
 /*search field */
 .srchTxt{
     font-size:medium;
-   text-align:center
+   text-align:center;
 }
 .srch-catag{
    background:aliceblue;
@@ -54,6 +54,41 @@
 h3{
     color: grey;
 }
+.latest-h{
+ margin-left:30px;
+ color:#3A3F44;
+}
+/*cart css */
+.cart .container {
+    height:400px;
+  margin: 0 auto;
+  padding: 20px;
+
+}
+.tableBtm{
+    display:flex;
+    flex-direction:column;
+}
+
+.cart h1 {
+  text-align: center;
+}
+
+.cart .text-end {
+  text-align: right;
+}
+
+.cart .mt-4 {
+  margin-top: 1.5rem;
+}
+
+#cartNum{
+  position:absolute;
+  top:15%;
+  left:70%;
+  color:black;
+  background:skyblue
+}
 /*dynamic-data-container-search css*/
 .dynamic-data-container-search .product{
     margin-left:2.5%;
@@ -65,7 +100,13 @@ h3{
 
 /*dynamic-data-container*/
 .latest-h{
-    text-align:center;border:2px solid grey;width:20%
+    margin-bottom:15px;
+    text-align:center;
+    width:20%;
+    box-shadow: 
+       inset 0 -3em 3em rgba(0,0,90,0.1), 
+             0 0  0 2px rgb(255,255,255),
+             0.3em 0.3em 1em rgba(0,0,0,0.3);
 }
 .dynamic-data-container{
     height:500px;
@@ -133,11 +174,12 @@ h3{
 .pagination {
            margin-top:30px;
            margin-bottom:15px;
+           margin-right:2px;
            display:flex;
            justify-content:center;
        }
 .pagination a {
-           border:1px solid grey;
+           border:1px solid #3A3F44;
           color: black;
           float: left;
           padding: 8px 16px;
@@ -147,8 +189,8 @@ h3{
           background-color: #ddd;
                           }
 .pagination .active{
-    background:grey;
-    border:2px solid black;
+    color:white;
+    background:#3A3F44;
 }
 
 /* table css */
@@ -181,6 +223,15 @@ table th {
    .product{
        width:90%;
        margin-bottom:10%;
+   }
+
+}
+@media (max-width: 900px) {
+
+   #cartNum{
+    position:absolute;
+    left:5%;
+    color:red;
    }
 }
 @media (max-width: 1024px) {

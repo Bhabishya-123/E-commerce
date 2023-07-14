@@ -1,10 +1,13 @@
 <?php
+session_start();
+$_SESSION['paystat']='1';
+   if(!(isset($_SESSION['id']))){
+      header("location:signup.php?RegisterOrLoginFirst");
+     }
+     ?>
+<?php
    include_once('./includes/headerNav.php');
    include_once('./stripeConfig.php');
-   //this restriction will secure the pages path injection
-   if(!(isset($_SESSION['id']))){
-      header("location:signup.php?msg=CreateAccountBeforePurchase");
-     }
      ?>
      <head>
         <style>
@@ -81,9 +84,8 @@ $conn->close();
 <h4>Order summary</h4>
         <p>subtotal( item)</p>
         <p>shipping_fees: Rs 50</p>
-
-        <label for=""> <i style=" text-decoration:underline;"> voucher code</i></label>  <input type="text" placeholder="Insert code" name="code" required>
         <p>Total: Rs <?php echo $row['product_price']?>+50 = <?php echo $row['product_price']+50 ?> </p>
+
 
 <form action="message.php?id=<?php echo $_GET['id']?>" method="post">
 	<script
@@ -96,6 +98,7 @@ $conn->close();
 		data-currency="usd"
 		data-email="<?Php echo $_SESSION['customer_email']?>"
 	>
+   //this form container will auto generate paynow button that comers form script form stripe
 	</script>
 
 </form>
@@ -112,3 +115,4 @@ $conn->close();
 				  <h5>Payment Methods</h5>
 				</div>
 			  </div>
+

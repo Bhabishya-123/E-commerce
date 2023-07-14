@@ -2,12 +2,21 @@
    include_once('./includes/headerNav.php')
 ?>
 <!-- Header End====================================================================== -->
+<head>
+	<style>
+		img{
+    image-resolution: 300dpi;
+    backface-visibility: hidden;
+}
+
+	</style>
+</head>
 <div id="carouselBlk">
-	<div id="myCarousel" class="carousel slide">
+	<div id="myCarousel" class="carousel slide" >
 		<div class="carousel-inner">
 		  <div class="item active">
 		  <div class="container">
-			<img style="width:100%; height:315px" src="images/carousel/1ii.png" alt=""/>
+			<img className='imgCarosule' style="width:100%; height:315px" src="images/carousel/2ii.png" alt=""/>
 				<div class="carousel-caption">
 				
 				</div>
@@ -15,7 +24,7 @@
 		  </div>
 		  <div class="item">
 		  <div class="container">
-			<img style="width:100% ; height:315px;cursor:pointer" src="images/carousel/2i.png" alt=""/>
+			<img className='imgCarosule' style="width:100% ; height:315px;cursor:pointer" src="images/carousel/3ii.png" alt=""/>
 				<div class="carousel-caption">
 				
 				</div>
@@ -23,38 +32,23 @@
 		  </div>
 		  <div class="item">
 		  <div class="container">
-			<img style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/3i.png" alt=""/>
+			<img className='imgCarosule' style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/5ii.png" alt=""/>
 			<div class="carousel-caption">
 				
 				</div>
 			
-		  </div>
-		  </div>
-		   <div class="item">
-		   <div class="container">
-			<img style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/4i.png" alt=""/>
-			<div class="carousel-caption">
-				
-				</div>
 		   
 		  </div>
 		  </div>
 		   <div class="item">
 		   <div class="container">
-			<img style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/5i.png" alt=""/>
+			<img className='imgCarosule' style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/6ii.png" alt=""/>
 			<div class="carousel-caption">
 				
 			</div>
 		  </div>
 		  </div>
-		   <div class="item">
-		   <div class="container">
-			<img style="width:100% ; height:315px;cusrsor:pointer" src="images/carousel/6i.png" alt=""/>
-			<div class="carousel-caption">
-				
-				</div>
-		  </div>
-		  </div>
+	
 		</div>
 		<a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
 		<a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
@@ -65,9 +59,9 @@
 	<div class="row">
 
 <!-- Sidebar ================================================== -->
-	<div id="sidebar">
+	<!-- <div id="sidebar"> -->
 		<!-- <div class="well well-small"><a id="myCart" href="product_summary.php"><img src="images/ico-cart.png" alt="cart">3 Items in your cart  <span class="badge badge-warning pull-right">$155.00</span></a></div> -->
-		<ul style="margin-top:77px">
+		<!-- <ul style="margin-top:77px">
 			<li class="electronic-menu"><a class='electronics'> ELECTRONICS</a>
 				<ul class="product-menu">
 				<li><a href="search.php?catag=laptop"><i class=""></i>Laptop</a></li>
@@ -77,11 +71,11 @@
 				</ul>
 			</li>
 		</ul>
-	</div>
+	</div> -->
 <!-- Sidebar end=============================================== -->
 	
-<div class="dynamic-data-container">
-	<h3 class="latest-h">Latest Post</h3>
+<div class="">
+	<h3 class="latest-h" style='color:grey;font-size:20px'>Latest Post</h3>
     
 <?php
 //this will dynamically fetch data from a database and show all the post from mysql
@@ -159,12 +153,17 @@ while($row10 = $result10->fetch_assoc()) {
                   ?>
 	
 </div>
+			</div>
+			</div>
+			</div>
 
 <!-- Placed at the end of the document so the pages load faster ============================================= -->
 	<script src="./js/jquery.js" type="text/javascript"></script>
 	<script src="./js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="./js/electricshop.js"></script>
-	<script src="./js/main.js"></script>
+	<!-- <script src="./js/main.js"></script> -->
 
-</body>
-</html>
+<!-- Footer====================================================================== -->
+<?php
+   include_once('./includes/footer.php')
+?>

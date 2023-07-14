@@ -7,13 +7,12 @@
       /*signup*/
 .sgn-input{
     width:300px;
-    text-align: center;
     color: grey;
 }
 .signup_div{
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items:center
 }
 .div-sign{
    text-align:center
@@ -31,14 +30,14 @@
 
 <div class="signup_div">
 <form action="includes/signup.inc.php" method="post"> <br>
-    <input class="sgn-input" type="text" name="name" placeholder="fullname"  required="required" style="height:37px;">  <br> <br>
-    <input class="sgn-input" type="text" name="email" placeholder="email" required="required" style="height:37px;"> <br> <br>
-    <input class="sgn-input" type="text" name="address" placeholder="address"  required="required" style="height:37px;"> <br> <br>
-    <input class="sgn-input" type="number" name="number" placeholder="mobile number"  required="required" style="height:37px;"> <br> <br>
-    <input class="sgn-input" type="password" name="pwd" placeholder="password"  required="required" style="height:37px;"> <br> <br>
-    <input class="sgn-input" type="password" name="rpwd" placeholder="repeat password"  required="required" style="height:37px;"> <br> <br>
+   <label for="">Name:</label> <input class="sgn-input" type="text" name="name"   required="required" style="height:30px;">  
+   <label for="">Email:</label>   <input class="sgn-input" type="text" name="email"  required="required" style="height:30px;"> 
+   <label for="">Address:</label>  <input class="sgn-input" type="text" name="address"   required="required" style="height:30px;"> 
+   <label for="">Phone:</label>  <input class="sgn-input" type="number" name="number"   required="required" style="height:30px;"> 
+   <label for="">Password:</label>  <input class="sgn-input" type="password" name="pwd"  required="required" style="height:30px;"> 
+   <label for="">Re-Password:</label>  <input class="sgn-input" type="password" name="rpwd"   required="required" style="height:30px;"> 
     <div class="div-sign">
-    <button type="submit" class="btn btn-large btn-info" name="submit" >Register</button> <br> <br>
+    <button type="submit" class="btn btn-large btn-info" name="submit" >Register</button> 
     </div>
  
 </form>

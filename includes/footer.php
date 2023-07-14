@@ -4,23 +4,22 @@
 		<div class="row">
 			<div class="span3">
 				<h5>ACCOUNT</h5>
-				<a href="#">YOUR ACCOUNT</a>
-				<a href="#">PERSONAL INFORMATION</a> 
-				<a href="#">ADDRESSES</a> 
-				<a href="#">DISCOUNT</a>  
-				<a href="#">ORDER HISTORY</a>
+				<a href="./profile.php">YOUR ACCOUNT</a>
+				<a href="./profile.php">PERSONAL INFORMATION</a> 
+				<a href="./profile.php">ADDRESSES</a> 
+				<a href="./profile.php">ORDER HISTORY</a>
 			 </div>
 			<div class="span3">
 				<h5>INFORMATION</h5>
-				<a href="#">CONTACT</a>  
-				<a href="#">REGISTRATION</a>  
+				<a href="./contact.php">CONTACT</a>  
+				<a href="./signup.php">REGISTRATION</a>  
 				<a href="#">LEGAL NOTICE</a>  
 				<a hr#">TERMS AND CONDITIONS</a> 
 				<a hr#">FAQ</a>
 			 </div>
 			<div class="span3">
 				<h5>OUR OFFERS</h5>
-				<a href="#">NEW PRODUCTS</a> 
+				<a href="./index.php">NEW PRODUCTS</a> 
 				<a href="#">TOP SELLERS</a>  
 				<a href="#">SPECIAL OFFERS</a>  
 				<a href="#">MANUFACTURERS</a> 

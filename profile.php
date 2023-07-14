@@ -1,4 +1,13 @@
+<?php
+if(isset($_POST['delete'])){
+   session_start();
+  include_once 'includes/config.php';
+$sql = "DELETE FROM soldproducts where uid={$_SESSION['id']}"; //sql query for deleting
+$conn->query($sql); //executing sql query
 
+header("Location:profile.php?historyDeletedSuccessfully");
+}
+?>
 <?php
    include_once('./includes/headerNav.php');
    //this restriction will secure the pages path injection
@@ -27,7 +36,6 @@
       #edit{
             margin-left:5%;
             background:aliceblue;
-            height:200px;
             width:25%;
             overflow: hidden;
       }
@@ -73,11 +81,12 @@
                   }
    </style>
 </head>
-<hr>
 <!-- Header End====================================================================== -->
-<h3 style="text-align:center; "><marquee direction="left"  width="25%" style='background:wheat;'>
-                                        Hello,<?php echo ( $_SESSION['customer_role']=='admin')? 'Admin': $_SESSION['customer_name'];?> welcome to your profile</marquee>
-                                       </h3>
+<!-- <h3 style="text-align:center; "><marquee direction="left"  width="25%" style='background:wheat;'>
+                                        Hello,
+                                        <?php //echo ( $_SESSION['customer_role']=='admin')? 'Admin': $_SESSION['customer_name'];?>
+                                         welcome to your profile</marquee>
+                                       </h3> -->
 
 <h4 style="color:dark; text-align:center; font-family:bold">Manage My Account</h4>
 <div class="edit-container">
@@ -125,8 +134,61 @@
     </div>
     <h5><?php echo $_SESSION['customer_phone']  ?></h5>
  </div>
-
 </div> 
+<hr class="soften">
+
+<div style='text-align:center'>
+
+<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+<div>
+   <hr>
+   <h4 >Purchased History</h4>
+
+<span style='margin-right:5px'><b>Delete All History</b> </span>
+<button name='delete' type='submit' class="btn btn-danger">Delete</button>
+<hr>
+
+</div>
+</form>
+
+<div style='display:flex;flex-direction:column;justify-content:center;flex-wrap:wrap;' id="history_list">
+ <?php
+//this will dynamically fetch data from a database and show all the sold products
+include "includes/config.php";
+
+$sql10 = "SELECT * FROM soldproducts where uid='{$_SESSION['id']}' ";
+$result10 = $conn->query($sql10);
+$sn=0;
+if ($result10->num_rows > 0) {
+   // $_SESSION['history'] = true;
+// output data of each row
+while($row10 = $result10->fetch_assoc()) {
+   $sn++;
+   $sql11 = "SELECT * FROM products where product_id='{$row10['pid']}' ";
+$result11 = $conn->query($sql11);
+$row11 = $result11->fetch_assoc();
+   $sql12 = "SELECT * FROM servicestatus where pid='{$row10['pid']}' ";
+$result12 = $conn->query($sql12);
+$row12 = $result12->fetch_assoc()
+?>
+<div  style="display:flex;justify-content:center;align-items:center;margin-bottom:10px;gap:20px; background:aliceblue" >
+<h5><?php echo $sn  ?>.</h5>
+<img class='image' style="height:50px;width:50px"  src="admin/upload/<?php echo $row11['product_img'] ?>"  alt="product-img">
+<h5>Product: <br> <?php echo $row11['product_title']  ?></h5>
+<h5>Price: <br> <?php echo $row10['price']  ?></h5>
+<h5>Quantity: <br> <?php echo $row10['quantity']  ?></h5>
+<h5>Uuid: <br> <?php if($row12['status']==='success')echo 'Already used' ;else echo $row12['uuid']?></h5>
+<h5>Date: <br> <?php echo $row10['date']  ?></h5>
+</div>
+
+<?php }}else { echo "No Results Found"; 
+
+}
+             $conn->close(); 
+             ?>
+
+ </div>
+ </div>
 <?php
 //for edit backend users data php and mysql
       if(isset($_POST['save'])){

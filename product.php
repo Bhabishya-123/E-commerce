@@ -1,4 +1,60 @@
-<?php    include_once('./includes/headerNav.php'); ?>
+<?php    
+include_once('./includes/config.php');
+include_once('./stripeConfig.php');
+session_start();
+if (isset($_POST['addToCart'])) { 
+  if(isset($_SESSION['id'])){
+$sql22 = "INSERT INTO carts (
+    pid,
+    uid,
+    product,
+    price,
+    quantity
+) VALUES(
+  {$_SESSION['product_id']},
+    {$_SESSION['id']},
+    '{$_SESSION['prod-title']}',
+    '{$_SESSION['prod-price']}',
+    {$_POST['quantity']}
+    )";
+$conn->query($sql22);
+echo "";
+echo "<h4 style='text-align:center;position:absolute;top:100px;left:20%;padding:0;border:1px solid black'>Products has been Added to your Cart</h4>";
+  }
+  else{
+    header("Location:login.php?LoginFirst");
+    die();
+  }
+}
+include_once('./includes/headerNav.php');
+if(isset($_GET['id'])){
+$_SESSION['product_id'] = $_GET['id'];
+}else{
+  $_GET['id'] = $_SESSION['product_id'];
+}
+$sql11 ="SELECT * FROM  products WHERE product_id='{$_SESSION['product_id']}';";
+$result11 = $conn->query($sql11);
+$row11 = $result11->fetch_assoc();
+$_SESSION['prod-title'] = $row11['product_title'];
+$_SESSION['prod-price'] = $row11['product_price'];
+// if (($_SERVER['REQUEST_METHOD']==='POST')&& isset($_SESSION['id'])) { 
+//   $sql22 = "INSERT INTO carts (
+//       pid,
+//       uid,
+//       product,
+//       price,
+//       quantity
+//   ) VALUES(
+//     {$_GET['id']},
+//       {$_SESSION['id']},
+//       '{$_SESSION['prod-title']}',
+//       {$_SESSION['prod-price']},
+//       {$_POST['quantity']}
+//       )";
+//   $conn->query($sql22);
+//   }
+$conn->close();
+?>
 <head>
     <style>
         .selected_product{
@@ -69,6 +125,7 @@
       }
       .btn-pr{
         display:flex;
+        gap:4px
       }
 
       .button {
@@ -95,6 +152,33 @@
     .btn1{
       background-color:#40E0D0;
     }
+   .quantityDiv{
+    display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+        margin-bottom:20px
+   }
+   .section-title{
+    margin:0;
+    padding:0;
+    font-size:14px
+   }
+   .addSub{
+    height:30px;
+    width:30px;
+    background:grey;
+    display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        background:#C0C0C0;
+        font-size:24px;
+
+   }
+   .addSub:hover{
+    background:#DCDCDC
+   }
 
       /*responsive for ipad iphone and other */
    @media (max-width: 700px) {
@@ -102,9 +186,7 @@
  .prod-in{
     width:100%;
   }
-  .btn2{
-    display:none
-  }
+
   }
     </style>
     
@@ -167,15 +249,9 @@ function magnify(imgID, zoom) {
 }
 </script>
 </head>
+<body>
+  
 
-
-<?php
-
-$sql11 ="SELECT * FROM  products WHERE product_id='{$_GET['id']}';";
-$result11 = $conn->query($sql11);
-$row11 = $result11->fetch_assoc();
-$conn->close();
-?>
 
 <div class="selected_product">
   <div class="prod-in">
@@ -187,21 +263,36 @@ $conn->close();
 	<h5 class="title"><?php echo $row11['product_title'] ?> <p class="date"><?php echo $row11['product_date'] ?></p> </h5>
 	<p class="description-pr"><?php echo $row11['product_desc'] ?> 
 	<p class="price"><b>Rs.<?php echo $row11['product_price'] ?></b><br><span class="discount"><strike>5000</strike> -8%</span></p>
-  <div class="btn-pr">
-  <a href="payment.php?id=<?php echo $_GET['id']?>"><button class="button btn1">Purchase</button></a>
-  <button class="button btn2">Add To Cart</button>
+  
+  <form action="<?php echo $_SERVER['PHP_SELF']; ?> " method="post">
+  <div class="quantityDiv">
+    <h6 class="section-title">Quantity</h6>
+    <span class='addSub'  onclick="decQuantity()">-</span>
+    <input id='quantity' name='quantity' style="margin:0;padding:0;width:50px;border:none;height:30px;text-align:center" type="text" step="1" min="1" max="5" value='1'  autocomplete="off"><span class='addSub' onclick="incQuantity()" >+</span>
+</div>
+<div class="btn-pr">
+<a href="payment.php?id=<?php echo $_GET['id']?>" style='text-decoration:none'><p class="button btn1">Purchase</p></a>
+
+<?php if(isset($_SESSION['id'])){
+  echo "<Button type='submit' name='addToCart'  class='button btn2' onclick='addToCart()'>Add To Cart</Button>";
+}else{
+  echo " <button type='submit' class='button btn2' > <a href='./signup.php?loginOrSignupFirst' style='text-decoration:none;color:white'> Add To Cart</a></button>  ";
+}?>
+
   </div>
+</form>
   </div>
   </div>
 </div>
 
-
-
-
+</body>
 <script>
 /* Initiate Magnify Function
 with the id of the image, and the strength of the magnifier glass:*/
 magnify("image-pr", 3);
 </script>
 
-<script src="./js/increament.js"></script>
+<script src="./js/addToCart.js"></script>
+
+
+

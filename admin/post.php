@@ -6,8 +6,8 @@
     }
  ?>
 
-<h4>All Posts</h4>
-<h5 style="position:absolute;top:12%; right:5%;"><a href="add-post.php">Add Post</a></h5>
+<h4>All Products</h4>
+<h5 style="position:absolute;top:12%; right:5%;"><a href="add-post.php">Add Product</a></h5>
 
 <br>
 

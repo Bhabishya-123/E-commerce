@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2023 at 04:28 PM
+-- Generation Time: Jan 09, 2024 at 05:52 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.3.28
 
@@ -42,8 +42,9 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`sid`, `pid`, `uid`, `product`, `price`, `quantity`, `status`) VALUES
-(226, 33, 13, 'L12 Tri', 2000, 1, 'active'),
-(227, 34, 9, 'Lokai', 15000, 1, 'active');
+(261, 30, 26, 'Geforce keyboard', 2000, 2, 'active'),
+(262, 32, 31, 'HP inteli11', 150000, 2, 'active'),
+(264, 34, 24, 'Lokai', 15000, 2, 'active');
 
 -- --------------------------------------------------------
 
@@ -67,15 +68,10 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `customer_fname`, `customer_email`, `customer_pwd`, `customer_phone`, `customer_address`, `customer_role`) VALUES
 (9, 'bhabishya', 'bhabishyaghimire88@gmail.com', 'samaj123', '9817604185', 'jambudada,jorpati', 'admin'),
-(10, 'gopal', 'gopal@gmail.com', 'gopi', '9848236278', 'Bayalbas', 'normal'),
-(11, 'shrawan', 'prakash@gmail.com', 'samaj', '9824604185', 'Lalbandi', 'normal'),
-(12, 'karuna', 'karuna@gmail.com', 'samaj', '9812374624', 'siraha', 'normal'),
-(13, 'Shova ', 'shova@gmail.com', 'samaj', '9812738476', 'illam', 'normal'),
-(14, 'Aarushi ', 'arushi@gmail.com', 'pukuli', '9817692002', 'Jhapa', 'normal'),
-(15, 'shristi', 'shristiupreti88@gmail.com', 'samaj123', '9823446744', 'sagarnath', 'normal'),
-(18, 'Binod', 'binod88@gmail.com', 'samaj123', '9817602345', 'Sarlahi', 'normal'),
 (20, 'binit bista', 'binitbist707@gmail.com', 'kitsune', '9813458210', 'baneswor ,kathmandu', 'normal'),
-(23, 'test', 'test@gmail.com', '123', '9817265432', 'birgunj', 'normal');
+(23, 'test', 'test@gmail.com', 'test', '9817265432', 'birgunj', 'normal'),
+(26, 'admin', 'admin@gmail.com', 'admin', '9817604185', 'baneswor ,kathmandu', 'admin'),
+(31, 'user', 'user@gmail.com', '2345', '9817604345', 'Lalbandi,Sarlahi', 'normal');
 
 -- --------------------------------------------------------
 
@@ -90,6 +86,13 @@ CREATE TABLE `email` (
   `subject` varchar(50) NOT NULL,
   `message` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `email`
+--
+
+INSERT INTO `email` (`id`, `name`, `email`, `subject`, `message`) VALUES
+(6, 'bhabishyaghimire', 'bhabishyaghimire88@gmail.com', 'Request', 'I like to request you to bring iphone 14 pro max sooner');
 
 -- --------------------------------------------------------
 
@@ -134,6 +137,26 @@ INSERT INTO `products` (`product_id`, `product_catag`, `product_title`, `product
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `repair`
+--
+
+CREATE TABLE `repair` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `p_name` varchar(25) NOT NULL,
+  `category` varchar(20) NOT NULL,
+  `damage_type` varchar(40) NOT NULL,
+  `uuid` varchar(40) DEFAULT NULL,
+  `advance_amt` int(20) NOT NULL,
+  `due` int(20) DEFAULT NULL,
+  `status` enum('repaired','pending') NOT NULL DEFAULT 'pending',
+  `booked_date` varchar(25) NOT NULL,
+  `return_date` varchar(25) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `servicestatus`
 --
 
@@ -163,7 +186,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`website_name`, `website_logo`, `website_footer`) VALUES
-('Electric-Shop', 'logo.png', '&copy; Electric Shop 2021 <br> All right reserved.');
+('Electric-Shop', 'logo2023.png', '© Electric Shop 2021 <br> All right reserved.');
 
 -- --------------------------------------------------------
 
@@ -177,7 +200,8 @@ CREATE TABLE `soldproducts` (
   `pid` int(11) NOT NULL,
   `quantity` int(50) NOT NULL DEFAULT 1,
   `price` int(11) NOT NULL,
-  `date` varchar(60) DEFAULT NULL
+  `date` varchar(60) DEFAULT NULL,
+  `status` enum('pending','delivered') NOT NULL DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -210,6 +234,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`);
 
 --
+-- Indexes for table `repair`
+--
+ALTER TABLE `repair`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `servicestatus`
 --
 ALTER TABLE `servicestatus`
@@ -229,19 +259,19 @@ ALTER TABLE `soldproducts`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `customer_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -250,16 +280,22 @@ ALTER TABLE `products`
   MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
+-- AUTO_INCREMENT for table `repair`
+--
+ALTER TABLE `repair`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT for table `servicestatus`
 --
 ALTER TABLE `servicestatus`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `soldproducts`
 --
 ALTER TABLE `soldproducts`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

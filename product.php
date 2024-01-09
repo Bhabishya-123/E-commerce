@@ -19,7 +19,10 @@ $sql22 = "INSERT INTO carts (
     )";
 $conn->query($sql22);
 echo "";
-echo "<h4 style='text-align:center;position:absolute;top:100px;left:20%;padding:0;border:1px solid black'>Products has been Added to your Cart</h4>";
+echo "<h4 style='text-align:center;position:absolute;top:100px;left:20%;padding:0;    box-shadow: 
+inset 0 -3em 3em rgba(0,0,90,0.1), 
+      0 0  0 2px rgb(255,255,255),
+      0.3em 0.3em 1em rgba(0,0,0,0.3);'>Products has been Added to your Cart</h4>";
   }
   else{
     header("Location:login.php?LoginFirst");
@@ -251,8 +254,6 @@ function magnify(imgID, zoom) {
 </head>
 <body>
   
-
-
 <div class="selected_product">
   <div class="prod-in">
   <div class="img-magnifier-container">
@@ -276,7 +277,7 @@ function magnify(imgID, zoom) {
 <?php if(isset($_SESSION['id'])){
   echo "<Button type='submit' name='addToCart'  class='button btn2' onclick='addToCart()'>Add To Cart</Button>";
 }else{
-  echo " <button type='submit' class='button btn2' > <a href='./signup.php?loginOrSignupFirst' style='text-decoration:none;color:white'> Add To Cart</a></button>  ";
+  echo " <button type='submit' class='button btn2' > <a href='./signup.php?error=!loggedin' style='text-decoration:none;color:white'> Add To Cart</a></button>  ";
 }?>
 
   </div>

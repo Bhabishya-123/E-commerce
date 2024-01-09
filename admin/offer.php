@@ -7,7 +7,7 @@
     }
  ?>
 
-<h4>welcome to users</h4>
+<h4>Offer Status</h4>
 <br>
 
 <?php
@@ -39,7 +39,7 @@
         //define from which row to start extracting data from database
         $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM customer LIMIT {$offset},{$limit}";
+$sql = "SELECT * FROM servicestatus LIMIT {$offset},{$limit}";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) { ?>
     
@@ -47,12 +47,13 @@ if ($result->num_rows > 0) { ?>
     <table>
     <tr>
     <th class="short">S.N</th>
-    <th class="large">Name</th>
-    <th class="medium">Phone</th>
-    <th class="medium">Address</th>
-    <th class="medium">Role</th>
+    <th class="large">User_id</th>
+    <th class="medium">Product_id</th>
+    <th class="medium">Uuid</th>
+    <th class="medium">Discount</th>
+    <th class="short">Status</th>
     <th class="short">Edit</th>
-    <th class="short">Delete</th>
+
     </tr>
 <?php 
 // output data of each row
@@ -61,12 +62,14 @@ while($row = $result->fetch_assoc()) {
 ?>
 <tr>
     <td><?php echo $sn ?></td>
-    <td><?php echo $row["customer_fname"] ?></td>
-    <td><?php echo $row["customer_phone"] ?></td>
-    <td><?php echo $row["customer_address"] ?></td>
-    <td><?php echo $row["customer_role"] ?></td>
-    <td><a class="fn_link" href="update-user.php?id=<?php echo $row["customer_id"] ?>"><i class='fa fa-edit'></i></a></td>
-    <td><a class="fn_link" href="remove-user.php?id=<?php echo $row["customer_id"] ?>"><i class='fa fa-trash'></i></a></td>
+    <td><?php echo $row["uid"] ?></td>
+    <td><?php echo $row["pid"] ?></td>
+    <td><?php echo $row["uuid"] ?></td>
+    <td><?php echo $row["discount"] ?></td>
+    <td><?php echo $row["status"] ?></td>
+    <td><a class="fn_link" href="update-repair.php?id=<?php echo $row["sid"] ?>"><i class='fa fa-edit'></i></a></td>
+
+
 </tr>
 
 <?php }}else { echo "0 results"; }
@@ -81,7 +84,7 @@ while($row = $result->fetch_assoc()) {
                 include "includes/config.php"; 
                // Pagination btn using php with active effects 
 
-                $sql1 = "SELECT * FROM customer";
+                $sql1 = "SELECT * FROM servicestatus";
                 $result1 = mysqli_query($conn, $sql1) or die("Query Failed.");
 
                 if(mysqli_num_rows($result1) > 0){
@@ -100,7 +103,7 @@ while($row = $result->fetch_assoc()) {
                       $active = "";
                     }
 
-                        echo "<a href='users.php?page={$i}' class='{$active}'>".$i."</a>";
+                        echo "<a href='repair.php?page={$i}' class='{$active}'>".$i."</a>";
                   }
             
                 }

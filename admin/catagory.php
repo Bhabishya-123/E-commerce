@@ -5,7 +5,7 @@
         header("Location:login.php?unauthorizedAccess");
       }
  ?>
-<h5>welcome to catagory</h5>
+<h4>Welcome to catagory</h4>
 <br>
 
 

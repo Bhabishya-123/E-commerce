@@ -16,8 +16,7 @@ header("Location:cart.php?itemRemovedSuccessfully");
        include_once('./stripeConfig.php');
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +34,7 @@ header("Location:cart.php?itemRemovedSuccessfully");
        $total=0;
        $pidArray = [];
        $quantArray = [];
-  $sql = "SELECT * FROM carts where uid={$_SESSION['id']}";
+  $sql = "SELECT * FROM carts where uid={$_SESSION['id']} and status='active'";
 $result = $conn->query($sql) or die("Query Failed.");
 if ($result->num_rows > 0) {
 ?>
@@ -73,7 +72,7 @@ while($row = $result->fetch_assoc()) {
           <td>
           <p><?php echo $row["quantity"] ?></p>
           </td>
-          <td><?php echo $row["price"] ?></td>
+          <td><?php echo $row["price"]*$row["quantity"] ?></td>
           <td>
           <form action="<?php echo $_SERVER['PHP_SELF']?>?pid=<?php echo $row['pid']?>&q=<?php echo $row['quantity']?>" method="post">
 <button name='delete' type='submit' class="btn btn-danger">Remove</button>
@@ -89,7 +88,7 @@ while($row = $result->fetch_assoc()) {
     <h5>Total:<?php echo  $total?> </h5>
   </div>
   <div class="text-end ">
-    <form action="message.php?id=<?php echo $encodedPidData?>&q=<?php echo $encodedQuantityData?>" method="post">
+    <form action="./paymentVerify.php?id=<?php echo $encodedPidData?>&q=<?php echo $encodedQuantityData?>" method="post">
     <button class="btn" style="background:#11C9B6;"><a href="./index.php" style='color:white;text-decoration:none;'>Continue Shopping</a></button>
 	<script
 		src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -116,12 +115,11 @@ while($row = $result->fetch_assoc()) {
   </div>
   <br>
   <br>
-  <?php
+
+</body>
+<?php
    include_once('./includes/footer.php')
 ?>
-</body>
-</html>
-
 
 
 

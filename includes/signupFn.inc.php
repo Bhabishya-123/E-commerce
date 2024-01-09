@@ -75,7 +75,7 @@ if(!$conn){
        $sql->execute();
      
     //after saving user data to database redirecting user to add page
-    header("location: ../index.php?userSuccessfullycreated!loginNow");
+    header("location: ../index.php?msg=successRegistration");
     
        //last step closing connection
        $conn->close();

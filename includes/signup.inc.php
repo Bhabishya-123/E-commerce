@@ -1,7 +1,7 @@
 
 <?php
 
-
+include_once('./config.php');
 if(isset($_POST['submit'])){
    
     //ACCESSING all the input value from its name(key) given in form through its post associative array
@@ -12,10 +12,21 @@ if(isset($_POST['submit'])){
     $pwd = $_POST['pwd'];
     $rpwd = $_POST['rpwd'];
 
+  
+    //to stop creating account with already available gmail
+    $sql = "SELECT * from customer where customer_email ='{$email}'";
+    $result = $conn->query($sql);
+
+    if(mysqli_num_rows($result)>0){
+        header("location: ../signup.php?error=emailAlreadytaken");
+        exit();
+    }
+
+
     
     //1st step(i.e connection) done through config file
-    require_once 'config.php';
-    require_once 'signupFn.inc.php';
+    require_once './config.php';
+    require_once './signupFn.inc.php';
 
 //error handler done by using diff functions
 

@@ -7,7 +7,7 @@
     }
  ?>
 
-<h4>Repairing Service Status</h4>
+<h4>Repair Request</h4>
 <br>
 
 <?php
@@ -39,7 +39,7 @@
         //define from which row to start extracting data from database
         $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM servicestatus LIMIT {$offset},{$limit}";
+$sql = "SELECT * FROM repair LIMIT {$offset},{$limit}";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) { ?>
     
@@ -47,12 +47,18 @@ if ($result->num_rows > 0) { ?>
     <table>
     <tr>
     <th class="short">S.N</th>
-    <th class="large">User_id</th>
-    <th class="medium">Product_id</th>
-    <th class="medium">Uuid</th>
-    <th class="medium">Discount</th>
+    <th class="large">User_Id</th>
+    <th class="medium">Product</th>
+    <th class="medium">Category</th>
+    <th class="medium">Damage_Type</th>
+    <th class="medium">UUID</th>
+    <th class="short">Advance_Amt</th>
+    <th class="short">Booked_date</th>
+    <th class="short">Return_date</th>
+    <th class="short">Due</th>
     <th class="short">Status</th>
     <th class="short">Edit</th>
+
 
     </tr>
 <?php 
@@ -62,12 +68,17 @@ while($row = $result->fetch_assoc()) {
 ?>
 <tr>
     <td><?php echo $sn ?></td>
-    <td><?php echo $row["uid"] ?></td>
-    <td><?php echo $row["pid"] ?></td>
+    <td><?php echo $row["user_id"] ?></td>
+    <td><?php echo $row["p_name"] ?></td>
+    <td><?php echo $row["category"] ?></td>
+    <td><?php echo $row["damage_type"] ?></td>
     <td><?php echo $row["uuid"] ?></td>
-    <td><?php echo $row["discount"] ?></td>
+    <td><?php echo $row["advance_amt"] ?></td>
+    <td><?php echo $row["booked_date"] ?></td>
+    <td><?php echo $row["return_date"] ?></td>
+    <td><?php echo $row["due"] ?></td>
     <td><?php echo $row["status"] ?></td>
-    <td><a class="fn_link" href="update-repair.php?id=<?php echo $row["sid"] ?>"><i class='fa fa-edit'></i></a></td>
+    <td><a class="fn_link" href="update-repair.php?id=<?php echo $row["user_id"] ?>&dt=<?php echo $row["damage_type"] ?>"><i class='fa fa-edit'></i></a></td>
 </tr>
 
 <?php }}else { echo "0 results"; }
@@ -82,7 +93,7 @@ while($row = $result->fetch_assoc()) {
                 include "includes/config.php"; 
                // Pagination btn using php with active effects 
 
-                $sql1 = "SELECT * FROM servicestatus";
+                $sql1 = "SELECT * FROM repair";
                 $result1 = mysqli_query($conn, $sql1) or die("Query Failed.");
 
                 if(mysqli_num_rows($result1) > 0){

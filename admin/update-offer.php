@@ -4,7 +4,7 @@
 
     //this will provide previous user value before updating 
     include "includes/config.php";
-    $sql = "SELECT * FROM repair where user_id={$_GET['id']}";
+    $sql = "SELECT * FROM servicestatus where sid={$_GET['id']}";
     $result = $conn->query($sql);
     // output data of each row
     $row = $result->fetch_assoc();
@@ -32,25 +32,19 @@
  <div class="update">
      <br>
  <form action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">
- <label for="">Due Amount</label>
- <input type="number" name='amt' placeholder='optional'>
-<br>
- <label for="">Returned Date</label>
-<input type="date" name='date'>
-<br>
-    <label for="">Returned Status</label>
+    <label for="">Status</label>
     <select id="status_update" name="status">
   <?php 
        if($_SESSION['previous_status']=='pending'){
            ?>
             <option value="pending" selected>Pending</option>
-            <option value="repaired">Repaired</option>
+            <option value="success">Success</option>
      <?php  } else{?> 
                        <option value="pending">Pending</option>
-            <option value="repaired" selected>Repaired</option>
+            <option value="success" selected>Success</option>
             <?php } ?>
 </select>
- <br> <br> 
+ <br> <br> <br> <br>
 <button class="update-btn" type="submit" name="update">Update</button>
 </form>
  </div>
@@ -62,15 +56,12 @@
    if(isset($_POST['update'])){
     //below sql will update user details inside sql table when update is clicked
     include "includes/config.php";
-    $sql1 = "UPDATE repair
-             SET  
-             status='{$_POST['status']}',
-             return_date='{$_POST['date']}',
-             due='{$_POST['amt']}'
-             WHERE user_id={$_GET['id']} AND damage_type='{$_GET['dt']}' ";
+    $sql1 = "UPDATE servicestatus 
+             SET  status='{$_POST['status']}'
+             WHERE sid={$_GET['id']} ";
     $conn->query($sql1);   
     
     $conn->close();
-    header("Location:http://localhost/electronics_shop/admin/repair.php?succesfullyUpdated");
+    header("Location:http://localhost/electronics_shop/admin/offer.php?succesfullyUpdated");
    }
 ?>

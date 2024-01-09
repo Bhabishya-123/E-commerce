@@ -57,23 +57,6 @@
 <div id="mainBody">
 	<div class="container">
 	<div class="row">
-
-<!-- Sidebar ================================================== -->
-	<!-- <div id="sidebar"> -->
-		<!-- <div class="well well-small"><a id="myCart" href="product_summary.php"><img src="images/ico-cart.png" alt="cart">3 Items in your cart  <span class="badge badge-warning pull-right">$155.00</span></a></div> -->
-		<!-- <ul style="margin-top:77px">
-			<li class="electronic-menu"><a class='electronics'> ELECTRONICS</a>
-				<ul class="product-menu">
-				<li><a href="search.php?catag=laptop"><i class=""></i>Laptop</a></li>
-				<li><a href="search.php?catag=mobile"><i class=""></i>Mobile</a></li>
-				<li><a href="search.php?catag=mouse"><i class=""></i>Mouse</a></li>
-				<li><a href="search.php?catag=keyboard"><i class=""></i>keyboard</a></li>
-				</ul>
-			</li>
-		</ul>
-	</div> -->
-<!-- Sidebar end=============================================== -->
-	
 <div class="">
 	<h3 class="latest-h" style='color:grey;font-size:20px'>Latest Post</h3>
     
@@ -161,6 +144,11 @@ while($row10 = $result10->fetch_assoc()) {
 	<script src="./js/jquery.js" type="text/javascript"></script>
 	<script src="./js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="./js/electricshop.js"></script>
+	<script>
+		<?php if(isset($_GET['msg']) && ($_GET['msg']==='successRegistration')){?>
+			alert("Registration is successful. \n Now you can login to your account.");
+		<?php } ?>
+		</script>
 	<!-- <script src="./js/main.js"></script> -->
 
 <!-- Footer====================================================================== -->

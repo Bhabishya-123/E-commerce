@@ -33,10 +33,13 @@
           <a class="nav-link" href="users.php">Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="sold.php">Sold</a>
+          <a class="nav-link" href="order.php">Order</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="repair.php">Repair</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="offer.php">Offer</a>
         </li>
         <li class="nav-item ">
           <a  class="nav-link" href="settings.php"> Settings </a>

@@ -38,6 +38,22 @@
    <label for="">Re-Password:</label>  <input class="sgn-input" type="password" name="rpwd"   required="required" style="height:30px;"> 
     <div class="div-sign">
     <button type="submit" class="btn btn-large btn-info" name="submit" >Register</button> 
+    <?php
+// if(isset($_GET['error'])){
+//    if($_GET['error']==='!loggedin') echo '<br> <br><div class="alert alert-danger">Signup or Login first.</div>';
+
+if(isset($_GET['error'])){
+switch($_GET['error']){
+   case '!loggedin':echo '<br> <br><div class="alert alert-danger">Signup or Login first.</div>';break;
+   case 'enterValidNumber':echo '<br> <br><div class="alert alert-danger">Enter valid number.</div>';break;
+   case 'invalidemail':echo '<br> <br><div class="alert alert-danger">Enter valid email address.</div>';break;
+   case 'pwdnotmatch':echo '<br> <br><div class="alert alert-danger">Entered password does not matched.</div>';break;
+   case 'emptyInput':echo '<br> <br><div class="alert alert-danger">Form must be filled.</div>';break;
+   case 'emailAlreadytaken':echo '<br> <br><div class="alert alert-danger">Account is already registered with this email.</div>';break;
+}
+}
+
+    ?>
     </div>
  
 </form>

@@ -5,9 +5,21 @@
     if(!(isset($_SESSION['logged-in']))){
       header("Location:login.php?unauthorizedAccess");
     }
+    if(isset($_POST['update'])){
+     //below sql will update user details inside sql table when update is clicked
+     include "includes/config.php";
+     $sql = "UPDATE soldproducts 
+              SET  status='{$_POST['status']}'
+              WHERE uid={$_POST['uid']} AND pid={$_POST['pid']} AND quantity={$_POST['quantity']} 
+              ";
+     $conn->query($sql);   
+     $conn->close();
+     header("Location:http://localhost/electronics_shop/admin/order.php?statusUpdatedSuccessfully");
+    }
+ 
  ?>
 
-<h4>welcome to users</h4>
+<h4>Ordered Items</h4>
 <br>
 
 <?php
@@ -39,7 +51,7 @@
         //define from which row to start extracting data from database
         $offset = ($page - 1) * $limit;
 
-$sql = "SELECT * FROM customer LIMIT {$offset},{$limit}";
+$sql = "SELECT * FROM soldproducts  LIMIT {$offset},{$limit}";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) { ?>
     
@@ -47,12 +59,12 @@ if ($result->num_rows > 0) { ?>
     <table>
     <tr>
     <th class="short">S.N</th>
-    <th class="large">Name</th>
-    <th class="medium">Phone</th>
-    <th class="medium">Address</th>
-    <th class="medium">Role</th>
-    <th class="short">Edit</th>
-    <th class="short">Delete</th>
+    <th class="large">User_id</th>
+    <th class="medium">Product_id</th>
+    <th class="medium">Quantity</th>
+    <th class="medium">Price</th>
+    <th class="medium">Date</th>
+    <th class="medium">Status</th>
     </tr>
 <?php 
 // output data of each row
@@ -61,12 +73,29 @@ while($row = $result->fetch_assoc()) {
 ?>
 <tr>
     <td><?php echo $sn ?></td>
-    <td><?php echo $row["customer_fname"] ?></td>
-    <td><?php echo $row["customer_phone"] ?></td>
-    <td><?php echo $row["customer_address"] ?></td>
-    <td><?php echo $row["customer_role"] ?></td>
-    <td><a class="fn_link" href="update-user.php?id=<?php echo $row["customer_id"] ?>"><i class='fa fa-edit'></i></a></td>
-    <td><a class="fn_link" href="remove-user.php?id=<?php echo $row["customer_id"] ?>"><i class='fa fa-trash'></i></a></td>
+    <form action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">
+    <td><input type="text" name='uid' value='<?php echo $row["uid"] ?>' readonly style='outline:none;border:none;width:100%;background:none;text-align:center'></td>
+    <td><input type="text" name='pid' value='<?php echo $row["pid"] ?>' readonly style='outline:none;border:none;width:100%;background:none;text-align:center'></td>
+    <td><input type="text" name='quantity' value='<?php echo $row["quantity"] ?>' readonly style='outline:none;border:none;width:100%;background:none;text-align:center'></td>
+    <td><?php echo $row["price"] ?></td>
+    <td><?php echo $row["date"] ?></td>
+    <td>
+    <div class="update">
+    <select id="status_update" name="status">
+  <?php 
+       if($row['status']=='pending'){
+           ?>
+            <option value="pending" selected>Pending</option>
+            <option value="delivered">Delivered</option>
+     <?php  } else{?> 
+                       <option value="pending">Pending</option>
+            <option value="delivered" selected>Delivered</option>
+            <?php } ?>
+</select>
+<input class="update-btn" type="submit" value='Update' name="update" style='margin-top:4px'></input>
+</form>
+ </div>
+    </td>
 </tr>
 
 <?php }}else { echo "0 results"; }
@@ -81,7 +110,7 @@ while($row = $result->fetch_assoc()) {
                 include "includes/config.php"; 
                // Pagination btn using php with active effects 
 
-                $sql1 = "SELECT * FROM customer";
+                $sql1 = "SELECT * FROM soldproducts";
                 $result1 = mysqli_query($conn, $sql1) or die("Query Failed.");
 
                 if(mysqli_num_rows($result1) > 0){
@@ -100,7 +129,7 @@ while($row = $result->fetch_assoc()) {
                       $active = "";
                     }
 
-                        echo "<a href='users.php?page={$i}' class='{$active}'>".$i."</a>";
+                        echo "<a href='sold.php?page={$i}' class='{$active}'>".$i."</a>";
                   }
             
                 }

@@ -1,19 +1,57 @@
 <?php
-if(isset($_POST['delete'])){
-   session_start();
-  include_once 'includes/config.php';
-$sql = "DELETE FROM soldproducts where uid={$_SESSION['id']}"; //sql query for deleting
-$conn->query($sql); //executing sql query
-
-header("Location:profile.php?historyDeletedSuccessfully");
-}
-?>
-<?php
    include_once('./includes/headerNav.php');
    //this restriction will secure the pages path injection
    if(!(isset($_SESSION['id']))){
-      header("location:index.php?UnathorizedUser");
+      header("Location:index.php?UnathorizedUser");
+      die();
      }
+if(isset($_POST['delete'])){
+   if (session_status() !== PHP_SESSION_ACTIVE) {
+      session_start();
+  }
+  include_once 'includes/config.php';
+$sql = "DELETE FROM soldproducts where uid={$_SESSION['id']} AND status='delivered'"; //sql query for deleting
+if($conn->query($sql)){
+   header("Location:profile.php?deliveredHistoryDeleted");
+} //executing sql query
+
+
+}
+?>
+<?php
+//for edit backend users data php and mysql
+      if(isset($_POST['save'])){
+         
+        if(!empty($_POST['name']) AND !empty($_POST['email'])){
+         include "includes/config.php";
+         $sql6 = "UPDATE customer 
+                  SET  customer_fname= '{$_POST['name']}' ,
+                       customer_email= '{$_POST['email']}' 
+                  WHERE customer_id= '{$_SESSION['id']}' ";
+         $conn->query($sql6);   
+         $conn->close();
+         header("Location:./profile.php?profileUpdatedSuccessfully");
+        }
+        if(!empty($_POST['address'])){
+         include "includes/config.php";
+         $sql6 = "UPDATE customer 
+                  SET  customer_address= '{$_POST['address']}'
+                  WHERE customer_id= '{$_SESSION['id']}' ";
+         $conn->query($sql6);   
+         $conn->close();         
+         header("Location:./profile.php?profileUpdatedSuccessfully");
+        }
+        if(!empty($_POST['number'])){
+         include "includes/config.php";
+         $sql6 = "UPDATE customer 
+                  SET  customer_phone= '{$_POST['number']}'
+                  WHERE customer_id= '{$_SESSION['id']}' ";
+         $conn->query($sql6);   
+         $conn->close();
+         header("Location:./profile.php?profileUpdatedSuccessfully");
+         
+        }
+      }
     $sql8 ="SELECT * FROM  customer WHERE customer_id='{$_SESSION['id']}';";
     $result8 = $conn->query($sql8);
     $row8 = $result8->fetch_assoc();
@@ -21,20 +59,26 @@ header("Location:profile.php?historyDeletedSuccessfully");
     $_SESSION['customer_email'] = $row8['customer_email'];
     $_SESSION['customer_phone'] = $row8['customer_phone'];
     $_SESSION['customer_address'] = $row8['customer_address'];
+
+    $sql9 = "SELECT * FROM soldproducts where uid={$_SESSION['id']} AND status='delivered'";
+    $result9 = $conn->query($sql9);
+    $row9 = $result9->fetch_assoc();
     $conn->close();
 ?>
 <head>
    <style>
       .edit-container{
                       border:none;
-                      height: 40%;
                       color:rgb(32, 69, 32);
                       display:flex;
                       /* align-items:center; */
                       justify-content:center;
                      }
+                     th{
+                     background:aliceblue;
+                  }
       #edit{
-            margin-left:5%;
+            margin-left:2%;
             background:aliceblue;
             width:25%;
             overflow: hidden;
@@ -79,6 +123,7 @@ header("Location:profile.php?historyDeletedSuccessfully");
                        width:40%;
                     }
                   }
+           
    </style>
 </head>
 <!-- Header End====================================================================== -->
@@ -139,19 +184,9 @@ header("Location:profile.php?historyDeletedSuccessfully");
 
 <div style='text-align:center'>
 
-<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-<div>
-   <hr>
-   <h4 >Purchased History</h4>
 
-<span style='margin-right:5px'><b>Delete All History</b> </span>
-<button name='delete' type='submit' class="btn btn-danger">Delete</button>
-<hr>
 
-</div>
-</form>
-
-<div style='display:flex;flex-direction:column;justify-content:center;flex-wrap:wrap;' id="history_list">
+<div style='display:flex;flex-direction:column;justify-content:center;align-items:center;flex-wrap:wrap;' id="history_list">
  <?php
 //this will dynamically fetch data from a database and show all the sold products
 include "includes/config.php";
@@ -160,6 +195,33 @@ $sql10 = "SELECT * FROM soldproducts where uid='{$_SESSION['id']}' ";
 $result10 = $conn->query($sql10);
 $sn=0;
 if ($result10->num_rows > 0) {
+   ?>
+   <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+<div>
+   <hr>
+   <h4 >Order History</h4>
+<?php if($row9>0){?>
+<span style='margin-right:5px'><b>Delete Delivered History</b> </span>
+<button name='delete' type='submit' class="btn btn-danger">Delete</button>
+<?php
+}
+?>
+
+</div>
+</form>
+
+   <table style='width:80%;'>
+    <tr>
+    <th style='background:grey' class="short" style='background:grey'>S.N</th>
+    <th style='background:grey' class="large">Image</th>
+    <th style='background:grey' class="large">Product</th>
+    <th style='background:grey' class="short">Price</th>
+    <th style='background:grey' class="short">Quantity</th>
+    <th style='background:grey' class="short">UUID</th>
+    <th style='background:grey' class="short">Date</th>
+    <th style='background:grey' class="short">Status</th>
+    </tr>
+    <?php
    // $_SESSION['history'] = true;
 // output data of each row
 while($row10 = $result10->fetch_assoc()) {
@@ -171,69 +233,92 @@ $row11 = $result11->fetch_assoc();
 $result12 = $conn->query($sql12);
 $row12 = $result12->fetch_assoc()
 ?>
-<div  style="display:flex;justify-content:center;align-items:center;margin-bottom:10px;gap:20px; background:aliceblue" >
-<h5><?php echo $sn  ?>.</h5>
-<img class='image' style="height:50px;width:50px"  src="admin/upload/<?php echo $row11['product_img'] ?>"  alt="product-img">
-<h5>Product: <br> <?php echo $row11['product_title']  ?></h5>
-<h5>Price: <br> <?php echo $row10['price']  ?></h5>
-<h5>Quantity: <br> <?php echo $row10['quantity']  ?></h5>
-<h5>Uuid: <br> <?php if($row12['status']==='success')echo 'Already used' ;else echo $row12['uuid']?></h5>
-<h5>Date: <br> <?php echo $row10['date']  ?></h5>
-</div>
+    <tr>
+    <td><?php echo $sn ?></td>
+    <td><img class='image' style="height:50px;width:50px"  src="admin/upload/<?php echo $row11['product_img'] ?>"  alt="product-img">
+</td>
+    <td><?php echo $row11['product_title']?></td>
+    <td><?php echo $row10['price']?></td>
+    <td><?php echo $row10['quantity']?></td>
+    <td><?php if($row12['status']==='success')echo 'Already used' ;else echo $row12['uuid']?></td>
+    <td><?php echo $row10['date']?></td>
+    <td><?php echo $row10['status']?></td>
+
+</tr>
+
+<?php }}else 
+             $conn->close(); 
+             ?>
+</table>
+
+ </div>
+<?php 
+include "includes/config.php";
+$sql = "SELECT * FROM repair where user_id='{$_SESSION['id']}' ";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+   ?>
+ <div>
+   <hr>
+   <h4 >Repair History</h4>
+ <div style='display:flex;flex-direction:column;justify-content:center;;align-items:center;flex-wrap:wrap;' id="history_list">
+ <table style='width:80%;'>
+    <tr>
+    <th style='background:grey' class="short">S.N</th>
+    <th style='background:grey' class="large">Product</th>
+    <th style='background:grey' class="large">Category</th>
+    <th style='background:grey' class="short">Issue</th>
+    <th style='background:grey' class="short">Advance</th>
+    <th style='background:grey' class="short">UUID</th>
+    <th style='background:grey' class="short">Due</th>
+    <th style='background:grey' class="short">Booked</th>
+    <th style='background:grey' class="short">Status</th>
+    <th style='background:grey' class="short">Return Date</th>
+    </tr>
+ <?php
+//this will dynamically fetch data from a database and show all the sold products
+include "includes/config.php";
+
+$sql10 = "SELECT * FROM repair where user_id='{$_SESSION['id']}' ";
+$result10 = $conn->query($sql10);
+$sn=0;
+if ($result10->num_rows > 0) {
+   // $_SESSION['history'] = true;
+// output data of each row
+while($row10 = $result10->fetch_assoc()) {
+   $sn++;
+?>
+
+<tr>
+    <td><?php echo $sn ?></td>
+    <td><?php echo $row10['p_name'] ?></td>
+    <td><?php echo $row10['category']?></td>
+    <td><?php echo $row10['damage_type']?></td>
+    <td><?php echo  $row10['advance_amt']?></td>
+    <td><?php echo $row10['uuid']?></td>
+    <td><?php echo $row10['due']?></td>
+    <td><?php echo $row10['booked_date']?></td>
+    <td><?php echo $row10['status']?></td>
+    <td><?php echo $row10['return_date']?></td>
+
+
+</tr>
+
 
 <?php }}else { echo "No Results Found"; 
 
 }
              $conn->close(); 
              ?>
+             </table>
 
  </div>
+</div>
+<?php
+}
+?>
  </div>
-<?php
-//for edit backend users data php and mysql
-      if(isset($_POST['save'])){
-         
-        if(!empty($_POST['name']) AND !empty($_POST['email'])){
-         include "includes/config.php";
-         $sql6 = "UPDATE customer 
-                  SET  customer_fname= '{$_POST['name']}' ,
-                       customer_email= '{$_POST['email']}' 
-                  WHERE customer_id= '{$_SESSION['id']}' ";
-         $conn->query($sql6);   
-         $conn->close();
-         echo "success";
-         
-        }
-        if(!empty($_POST['address'])){
-         include "includes/config.php";
-         $sql6 = "UPDATE customer 
-                  SET  customer_address= '{$_POST['address']}'
-                  WHERE customer_id= '{$_SESSION['id']}' ";
-         $conn->query($sql6);   
-         
-         $conn->close();
-         echo "success";
-         
-        }
-        if(!empty($_POST['number'])){
-         include "includes/config.php";
-         $sql6 = "UPDATE customer 
-                  SET  customer_phone= '{$_POST['number']}'
-                  WHERE customer_id= '{$_SESSION['id']}' ";
-         $conn->query($sql6);   
-         
-         $conn->close();
-         echo "success";
-         
-        }
-      }
-   ?>
-
-
-
-
-<!-- Footer====================================================================== -->
-<?php
+ <?php
    include_once('./includes/footer.php')
 ?>
 <!-- Placed at the end of the document so the pages load faster ============================================= -->

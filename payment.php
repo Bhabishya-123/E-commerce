@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['paystat']='1';
    if(!(isset($_SESSION['id']))){
-      header("location:signup.php?RegisterOrLoginFirst");
+      header("location:signup.php?error=!loggedin");
      }
      ?>
 <?php
@@ -87,7 +87,7 @@ $conn->close();
         <p>Total: Rs <?php echo $row['product_price']?>+50 = <?php echo $row['product_price']+50 ?> </p>
 
 
-<form action="message.php?id=<?php echo $_GET['id']?>" method="post">
+<form action="paymentVerify.php?id=<?php echo $_GET['id']?>" method="post">
 	<script
 		src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 		data-key="<?php echo $publishableKey?>"

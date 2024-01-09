@@ -9,4 +9,4 @@ database then go to import section and there you will see select file then selec
 # Stripe Configuration
 We have already provide stripe config file. You have to change the publishable and secret key with your own stripe account key.
 And Notice that you may be sufferring from stripe error.
-It's because stripe files isn't uploaded to this github due to some reason. So we have provided you zip file of stripe inside named stripe.zip. So you need to unzip the file and place that stripe folder inside root folder. Finally stripe payment gateway will work.
+It's because stripe files isn't uploaded to this github due to some reason. So we have provided you zip file of stripe and vendor folder inside stripe.zip. So you need to unzip the file and place that stripe and vendor folder inside root folder. Finally stripe payment gateway will work.
